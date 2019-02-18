@@ -1,0 +1,16 @@
+nav(role="navigation").light-blue.lighten-1
+  .nav-wrapper.container
+    a(href="/")
+      | Dartboard
+    ul.right.hide-on-med-and-down
+      li
+        a(href='/dartboards') Configuration
+      li
+        a(href='/games') Games
+    ul(id="nav-mobile", style="transform: translateX(-105%)").sidenav
+      li
+        a(href='/dartboards') Configuration
+      li
+        a(href='/games') Games    
+    a(data-target="nav-mobile").sidenav-trigger
+      i.material-icons menu

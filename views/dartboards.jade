@@ -1,0 +1,42 @@
+extends layout
+
+block content
+  .container
+    .section
+      .row
+        .col.l4.s12
+          .row
+            h4.col.s12 New Dartboard
+          .row
+            form(method='POST' action='dartboards/new').col.s12
+              .input-field.col.s12
+                input#name(type='text', name='name').validate
+                label(for='name') Name
+              .input-field.col.s12
+                input#name(type='text', name='ip').validate
+                label(for='ip') IP
+              button(type='submit').waves-effect.waves-light.btn.orange Add
+        .col.l8.s12
+          .row
+            h4 Existing Dartboards
+          .row
+            table.responsive-table
+              thead
+                th Name
+                th Ip
+                th Connect
+                th Delete
+              each dartboard in dartboards
+                tr
+                  td #{dartboard.name} 
+                  td #{dartboard.ip}
+                  td
+                    form(action="dartboards/connect", method="post")
+                      input(type="hidden", name="ip", value="#{dartboard.ip}")
+                      button(type='submit').btn 
+                        i.material-icons arrow_forward
+                  td
+                    form(action="dartboards/delete", method="post")
+                      input(type="hidden", name="ip", value="#{dartboard.ip}")
+                      button(type='submit').btn 
+                        i.material-icons delete                    
