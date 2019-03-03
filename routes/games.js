@@ -8,12 +8,19 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/new', function (req, res, next) {
-  var db = req.app.db;
-  var games = db.getCollection("games");
-
   res.render('games/new', {
     title: 'New Game'
   });
 });
+
+router.post('/new', function (req, res, next) {
+  var db = req.app.db;
+  var games = db.getCollection("games");
+
+  console.log(req);
+
+  res.redirect('/');
+});
+
 
 module.exports = router;

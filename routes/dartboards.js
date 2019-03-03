@@ -65,6 +65,10 @@ router.post('/connect', function (req, res, next) {
       req.app.dartboardConnections.push(controler);
       console.log('Connected to ' + that.io.uri);
     });
+
+    socket.on('hit', function(data){
+      console.log('received : ' + data);
+    });
   }
   
   res.redirect('/dartboards'); 
