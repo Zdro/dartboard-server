@@ -4,7 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var loki = require('lokijs');
-var ioClient = require('socket.io-client');
+var util = require('util');
 
 var indexRouter = require('./routes/index');
 var remoteDartboardRouter = require('./routes/dartboards');
@@ -42,8 +42,32 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-app.ioClient = ioClient;
 app.dartboardConnections = [];
+app.currentGame = undefined;
+
+app.handleHit = function(data){
+  console.log('handleHit : ' + data); 
+  if (app.currentGame){
+    var isDartRegEx = RegExp('((s|d)25)|((s|d|t)(1[0-9]|20|[1-9]))');
+    if (isDartRegEx.test(data)){
+      var name = data;
+      var value = parseInt(data.substr(1));
+      var multiplier;
+      if (data.substr(0,1) == 's') multiplier = 1
+      else if (data.substr(0,1) == 'd') multiplier = 2
+      else if (data.substr(0,1) == 't') multiplier = 3
+      
+      app.currentGame.addDart(name, value, multiplier);
+    }
+    else if (data === 'stop_round'){
+      app.currentGame.stopRound();
+    }
+    else if (data === 'start_round'){
+      app.currentGame.startRound();
+    }
+  }
+
+}
 
 var db = new loki('dartboard.db', {
 	autoload: true,
@@ -68,4 +92,5 @@ function databaseInitialize() {
   
   app.db = db;
 }
+
 module.exports = app;

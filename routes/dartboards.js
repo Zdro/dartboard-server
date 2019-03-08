@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+var ioClient = require('socket.io-client');
+
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
@@ -54,7 +56,7 @@ router.post('/connect', function (req, res, next) {
 
   if (!alreadyConnected){
  
-    var socket = req.app.ioClient(ip);
+    var socket = ioClient(ip);
     
     socket.on('connect', function(){
       var that = this;
@@ -67,7 +69,7 @@ router.post('/connect', function (req, res, next) {
     });
 
     socket.on('hit', function(data){
-      console.log('received : ' + data);
+      req.app.handleHit(data);
     });
   }
   

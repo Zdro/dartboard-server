@@ -7,7 +7,7 @@ module.exports = class Round {
     }
 
     addDart(dart){
-        if (this.isComplete)
+        if (this.isComplete())
             throw new Round.RoundException('This round is complete, can\'t add dart !');
         this.darts.push(dart);
         if (this.darts.length == 3)
@@ -20,6 +20,14 @@ module.exports = class Round {
 
     isComplete(){
         return this.ended;
+    }
+
+    numberOfDartsThrown(){
+        return this.darts.length;
+    }
+
+    getDarts(){
+        return this.darts;
     }
 
     static RoundException(msg) {
