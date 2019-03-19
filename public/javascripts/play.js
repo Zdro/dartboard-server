@@ -5,7 +5,10 @@ $(function () {
   
   function generatePlayersTable(game){
     var table = '';
-    if (game.waitingForNextRound)
+    if (game.winnerIdx){
+      table += `<h3>Winner ! ${game.players[game.winnerIdx].name}</h3>`
+    }
+    else if (game.waitingForNextRound)
       table += '<h3>Waiting for next turn...</h3>'
     else
       table += `<h3>${game.players[game.currentPlayerIdx].name} is playing...</h3>`
@@ -30,13 +33,11 @@ $(function () {
   }
   
   $("#dartboard path, #d25, #start_round").click(function(){
-    console.log('Sendind : ' + this.id);
     socket.emit('hit', this.id);
   });
 
   socket.on('game', function(data){
     var obj = JSON.parse(data);
-    console.log('received', obj);
     g = obj;
     $('#scoreTable').html(generatePlayersTable(obj));
   })

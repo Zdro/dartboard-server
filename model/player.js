@@ -1,5 +1,5 @@
-var Round = require('./round.js');
-var Game  = require('./game.js');
+let Round = require('./round.js');
+//let Game  = require('./game.js');
 
 module.exports = class Player{
     constructor(game, playerName){
@@ -34,11 +34,11 @@ module.exports = class Player{
     }
 
     isWinner(){
-        return false;
+        return this.game.isPlayerWinner(this);
     }
 
     toJSON(){
-        var obj = {
+        let obj = {
             name : this.name,
             rounds : this.rounds,
             score : this.getScore(),

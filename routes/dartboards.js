@@ -48,7 +48,6 @@ router.post('/delete', function (req, res, next) {
 
 router.post('/connect', function (req, res, next) {
   var ip = req.body.ip;
-  console.log('ip ' + ip);
   var alreadyConnected = 
   req.app.dartboardConnections.filter(
     elem => elem.name == ip
@@ -65,7 +64,6 @@ router.post('/connect', function (req, res, next) {
         socket : that
       }
       req.app.dartboardConnections.push(controler);
-      console.log('Connected to ' + that.io.uri);
     });
 
     socket.on('hit', function(data){

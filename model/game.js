@@ -1,6 +1,5 @@
-var Dart   = require('./dart.js');
-var Round  = require('./round.js');
-var Player = require('./player.js');
+let Dart   = require('./dart.js');
+let Player = require('./player.js');
 
 module.exports = class Game {
     constructor(playerNames) {
@@ -10,9 +9,9 @@ module.exports = class Game {
         this.winnerIdx = undefined;
         //this.updateView = function () { };
         this.waitingForNextRound = false;
-        this.dartboards = [];
+        this.clients = [];
 
-        var that = this;
+        let that = this;
         
         for (let i = 0; i < playerNames.length; i++) {
             const playerName = playerNames[i];
@@ -23,14 +22,15 @@ module.exports = class Game {
 
     addDart(name, score, multiplier) {
         if (this.waitingForNextRound) return false;
+        if (this.winnerIdx != undefined) return false;
 
-        var dart = new Dart(name, score, multiplier);
-        var wasEndOfRound = this.currentPlayer().addDart(dart);
+        let dart = new Dart(name, score, multiplier);
+        let wasEndOfRound = this.currentPlayer().addDart(dart);
         
         if (this.currentPlayer().isWinner()) {
             this.winnerIdx = this.currentPlayerIdx;
             this.updateView();
-    
+            console.log('winner !');
             return true;
         }
         if (wasEndOfRound) {
@@ -51,14 +51,14 @@ module.exports = class Game {
         }
     }
     playerScoreByIndex(index) {
-        var player = this.players[index];
+        let player = this.players[index];
         return this.playerScore(player);
     }
     currentPlayerName() {
         return this.currentPlayer().playerName;
     }
     stopRound(){
-        this.currentPlayer.currentRound
+        this.currentPlayer().endRound();
         this.nextPlayer();
         this.waitingForNextRound = true;
     }
@@ -73,30 +73,23 @@ module.exports = class Game {
     playerScore(player) {return 0;}
 
     updateView() {
-        var that = this;
-        console.log('Updating view ...');
-        //console.log(JSON.stringify(that));
-        var jsonGame = JSON.stringify(that);
-
-        console.log('emmiting to ' + this.dartboards.length + ' clients');
-        this.dartboards.forEach(element => {
-            element.emit('game', JSON.stringify(that));
+        this.clients.forEach(element => {
+            element.notifyChange();
         });      
     }
 
-    register(socket){
-        console.log('registering client');
-        this.dartboards.push(socket);
+    register(client){
+        this.clients.push(client);
         this.updateView();
     }
 
-    unregister(socket){
-        var i = this.dartboards.indexOf(socket);
-        this.dartboards.splice(i, 1);
+    unregister(client){
+        let i = this.clients.indexOf(client);
+        this.clients.splice(i, 1);
     }
 
     toJSON(){
-        var obj = {
+        let obj = {
             players : this.players,
             currentPlayerIdx : this.currentPlayerIdx,
             round : this.round,
@@ -106,8 +99,4 @@ module.exports = class Game {
         
         return obj;
     }
-
 }
-
-// A callback method called after the game adds the new dart
-//Game.prototype.updateView = function() { /*empty*/ }

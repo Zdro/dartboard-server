@@ -1,4 +1,4 @@
-var Dart = require('./dart.js');
+let Dart = require('./dart.js');
 
 module.exports = class Round {
     constructor(){

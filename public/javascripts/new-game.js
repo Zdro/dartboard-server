@@ -23,3 +23,8 @@ function deletePlayer(playerNumber){
     $('#nb-players').val(nbPlayers--);
     $(`#player-${playerNumber}-wrapper`).remove();
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('select');
+    var instances = M.FormSelect.init(elems);
+});
