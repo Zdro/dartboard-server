@@ -5,8 +5,6 @@ module.exports = class GameRepository {
             filter      :  /(Game.+)\.js$/,
             recursive   : false
         });
-
-        console.log(this.games);
     }
 
     getGame(name){

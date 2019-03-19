@@ -1,19 +1,20 @@
-let createError = require('http-errors');
-let express = require('express');
-let path = require('path');
-let cookieParser = require('cookie-parser');
-let logger = require('morgan');
-let loki = require('lokijs');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const logger = require('morgan');
+const loki = require('lokijs');
 
-let indexRouter = require('./routes/index');
-let remoteDartboardRouter = require('./routes/dartboards');
-let remoteGamesRouter = require('./routes/games');
+const indexRouter = require('./routes/index');
+const remoteDartboardRouter = require('./routes/dartboards');
+const remoteGamesRouter = require('./routes/games');
 
-let app = express();
-let GameManager = require('./gameManager');
+const app = express();
+const GameManager = require('./gameManager');
 app.gameManager = new GameManager();
 
-let GameRepository = require('./model/GameRepository');
+const GameRepository = require('./model/GameRepository');
 app.gameRepository = new GameRepository();
 
 // view engine setup
@@ -25,6 +26,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(session({secret: 'zdro-dartboard-server', saveUninitialized: false, resave: false}));
 
 app.use('/', indexRouter);
 app.use('/dartboards', remoteDartboardRouter);

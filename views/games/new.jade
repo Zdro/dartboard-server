@@ -31,3 +31,7 @@ block content
 
 block links
   script(src="/javascripts/new-game.js")
+  if errors
+    each error in errors
+      script.
+        M.toast({html: '#{error.msg}'});
