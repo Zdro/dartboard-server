@@ -4,12 +4,13 @@ let Dart = require('../dart.js');
 module.exports = class Game301 extends Game{
     constructor(playerNames) {
         super(playerNames);
-        this.objective = 301;
-        console.log('game 301 started')
+        this.objective = {
+            score : 301
+        };
     }
 
     isPlayerWinner(player) {
-        return player.getScore() == this.objective
+        return player.getScore().score == this.objective.score
     }
 
     addDart(name, score, multiplier) {
@@ -18,7 +19,7 @@ module.exports = class Game301 extends Game{
 
         let dart = new Dart(name, score, multiplier);
 
-        if (this.currentPlayer().getScore() + dart.getScore() > this.objective){
+        if (this.currentPlayer().getScore().score + dart.getScore() > this.objective.score){
             this.currentPlayer().addDart(dart);
             this.stopRound();
             this.updateView();
@@ -37,11 +38,11 @@ module.exports = class Game301 extends Game{
                 roundScore += dart.getScore();
             });
 
-            if (score + roundScore <= that.objective){
+            if (score + roundScore <= that.objective.score){
                 score += roundScore;
             }
         });
-        return score;
+        return {score : score};
     }
     roundIsComplete() {
         return this.currentPlayer().getCurrentRound().isComplete();

@@ -8,6 +8,10 @@ module.exports = class Player{
         this.rounds = new Array(new Round());
     }
 
+    getName(){
+        return this.name;
+    }
+
     getCurrentRound(){
         return this.rounds[this.rounds.length - 1];
     }
@@ -21,13 +25,13 @@ module.exports = class Player{
     }
 
     endRound(){
+        this.getCurrentRound().endRound();
         this.rounds.push(new Round());
     }
 
     addDart(dart) {
         this.getCurrentRound().addDart(dart);
         if (this.game.roundIsComplete()) {
-            this.endRound();
             return true;
         }
         return false;

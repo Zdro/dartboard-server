@@ -28,15 +28,15 @@ router.post('/new', [
   check('game').exists().withMessage('Please select a game')
 ], function (req, res, next) {
   const errors = validationResult(req);
-
+  
   if (!errors.isEmpty()) {
     req.session.errors = errors.array();
     req.session.success = false;
-       
+    
     res.redirect('/games/new');
     return false;
   }
-
+  
   let playerNames = Array.isArray(req.body.playerName) ? req.body.playerName : new Array(req.body.playerName);
   let gameName = req.body.game;
 

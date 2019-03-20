@@ -29,16 +29,11 @@ module.exports = class Game {
         
         if (this.currentPlayer().isWinner()) {
             this.winnerIdx = this.currentPlayerIdx;
-            this.updateView();
-            console.log('winner !');
-            return true;
         }
         if (wasEndOfRound) {
             this.stopRound();
         }
         this.updateView();
-
-        return false;
     }
     currentPlayer() {
         return this.players[this.currentPlayerIdx];
@@ -94,9 +89,9 @@ module.exports = class Game {
             currentPlayerIdx : this.currentPlayerIdx,
             round : this.round,
             winnerIdx : this.winnerIdx,
-            waitingForNextRound : this.waitingForNextRound
-        }
-        
+            waitingForNextRound : this.waitingForNextRound,
+            objective : this.objective
+        }        
         return obj;
     }
 }
