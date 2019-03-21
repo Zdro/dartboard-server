@@ -47,4 +47,8 @@ module.exports = class Game301 extends Game{
     roundIsComplete() {
         return this.currentPlayer().getCurrentRound().isComplete();
     }
+
+    getGameName(){
+        return '301';
+    }
 }

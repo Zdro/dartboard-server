@@ -90,7 +90,8 @@ module.exports = class Game {
             round : this.round,
             winnerIdx : this.winnerIdx,
             waitingForNextRound : this.waitingForNextRound,
-            objective : this.objective
+            objective : this.objective,
+            name : this.getGameName()
         }        
         return obj;
     }
