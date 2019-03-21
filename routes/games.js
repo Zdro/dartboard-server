@@ -1,6 +1,6 @@
 let express = require('express');
 let router = express.Router();
-const { check, validationResult } = require('express-validator/check');
+const { check, oneOf, validationResult } = require('express-validator/check');
 
 router.get('/', function (req, res, next) {  
   res.render('games/menu',{
@@ -24,8 +24,43 @@ router.get('/new', function (req, res, next) {
 });
 
 router.post('/new', [
-  check('playerName').exists().withMessage('Please add some players.'),
-  check('game').exists().withMessage('Please select a game')
+  check('playerName').exists().withMessage('Player(s) must be added'),
+  oneOf([
+    check('playerName')
+      .isArray()
+      .custom((values) => {
+        let result = true;
+        values.forEach(value => {
+          if (value !== escape(value)) result = false;
+        })
+        return result;
+      }),
+    check('playerName')
+      .isString()
+      .custom((value) => value === escape(value)),
+      check('playerName').not().exists()
+  ], 'Special characters are not allowed in player name'),
+  oneOf([
+    check('playerName')
+      .isArray()
+      .custom((values) => {
+        let result = true;
+        values.forEach(value => {
+          if (value === '') result = false;
+        })
+        return result;
+      }),
+    check('playerName')
+      .isString()
+      .custom((value) => value !== ''),
+    check('playerName').not().exists()
+  ], 'Player name can not be blank'),
+  check('game')
+    .exists()
+    .custom((value, {req}) => {
+      return req.app.gameRepository.getGame(value) != undefined
+    })
+    .withMessage('Please select a valid game')
 ], function (req, res, next) {
   const errors = validationResult(req);
   
