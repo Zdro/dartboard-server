@@ -95,9 +95,6 @@ module.exports = class GameCricket extends Game{
     roundIsComplete() {
         return this.currentPlayer().getCurrentRound().isComplete();
     }
-    getGameName(){
-        return 'Cricket';
-    }
 
     static getName(){
         return 'Cricket';

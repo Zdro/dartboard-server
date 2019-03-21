@@ -20,10 +20,6 @@ module.exports = class GameDummy extends Game{
         return this.currentPlayer().getCurrentRound().isComplete();
     }
 
-    getGameName(){
-        return 'Dummy';
-    }
-
     static getName(){
         return 'Dummy';
     }

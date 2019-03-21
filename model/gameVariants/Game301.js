@@ -48,10 +48,6 @@ module.exports = class Game301 extends Game{
         return this.currentPlayer().getCurrentRound().isComplete();
     }
 
-    getGameName(){
-        return '301';
-    }
-
     static getName(){
         return '301'
     };

@@ -59,9 +59,6 @@ module.exports = class GameCricketCutThroat extends GameCricket{
     roundIsComplete() {
         return this.currentPlayer().getCurrentRound().isComplete();
     }
-    getGameName(){
-        return 'Cricket Cut Throat';
-    }
 
     static getName(){
         return 'Cricket Cut Throat';

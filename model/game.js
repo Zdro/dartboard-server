@@ -92,7 +92,7 @@ module.exports = class Game {
             winnerIdx : this.winnerIdx,
             waitingForNextRound : this.waitingForNextRound,
             objective : this.objective,
-            name : this.getGameName()
+            name : this.constructor.getName()
         }        
         return obj;
     }
