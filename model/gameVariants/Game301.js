@@ -51,4 +51,8 @@ module.exports = class Game301 extends Game{
     getGameName(){
         return '301';
     }
+
+    static getName(){
+        return '301'
+    };
 }

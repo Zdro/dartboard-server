@@ -10,6 +10,7 @@ module.exports = class Game {
         //this.updateView = function () { };
         this.waitingForNextRound = false;
         this.clients = [];
+        this.objective = {}
 
         let that = this;
         

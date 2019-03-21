@@ -49,8 +49,8 @@ router.post('/new', [
 
 router.get('/play', function (req, res, next) {
 
-  //let Game = req.app.gameRepository.getGame('GameCricket');
-  //req.app.gameManager.startGame(new Game(['Zdro', 'Maïté', 'Thomas', 'Seb']));
+//  let Game = req.app.gameRepository.getGame('GameCricketCutThroat');
+//  req.app.gameManager.startGame(new Game(['Zdro', 'Maïté', 'Thomas', 'Seb']));
 
 
   res.render('games/play', {

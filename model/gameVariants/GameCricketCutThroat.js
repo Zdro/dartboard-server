@@ -1,50 +1,15 @@
-let Game = require('../game.js');
+let GameCricket = require('./GameCricket.js');
 let Dart = require('../dart.js');
 
-module.exports = class GameCricket extends Game{
+module.exports = class GameCricketCutThroat extends GameCricket{
     constructor(playerNames) {
         super(playerNames);
-        let that = this;
-        this.scores = new Array();
-
-        this.objective = {
-            score    : 0,
-            segments :[20,19,18,17,16,15,25]
-        };
-
-        playerNames.forEach((playerName, i) => {
-            that.scores[playerName] = {
-                score     : 0,
-                segments : [0,0,0,0,0,0,0]
-            }
-        });
-    }
-
-    addDart(name, score, multiplier) {
-        if (this.waitingForNextRound) return false;
-        if (this.winnerIdx != undefined) return false;
-
-        let dart = new Dart(name, score, multiplier);
-        let wasEndOfRound = this.currentPlayer().addDart(dart);
-        
-        this.updatePlayerScore(dart);
-
-        if (this.currentPlayer().isWinner()) {
-            this.winnerIdx = this.currentPlayerIdx;
-        }
-        if (wasEndOfRound) {
-            this.stopRound();
-        }
-        this.updateView();
-    }
-
-    isDartInObjective(dart){
-        return this.objective.segments.includes(dart.getValue());
     }
 
     hasPlayerClosedSegment(player, segmentIdx){
         return this.scores[player.getName()].segments[segmentIdx] == 3;
     }
+
     updatePlayerScore(dart){
         if (this.isDartInObjective(dart)){
             let segmentIdx = this.objective.segments.indexOf(dart.getValue());
@@ -60,28 +25,27 @@ module.exports = class GameCricket extends Game{
                     let otherPlayers = this.players.filter((player) => {
                         return player != that.currentPlayer();
                     });
-                    let everyoneClosedSegment = true;
+                    
                     otherPlayers.forEach(player => {
                         if (! that.hasPlayerClosedSegment(player, segmentIdx)){
-                            everyoneClosedSegment = false;
+                            that.scores[player.getName()].score += dart.getValue();
                         }
                     });
-                    if (!everyoneClosedSegment){
-                        this.scores[this.currentPlayer().getName()].score += dart.getValue();
-                    }
                 }
             }
         }
     }
     isPlayerWinner(player) {
         if (this.scores[player.getName()].segments.every(segment => {return segment == 3})){
+            let that = this;
+
             let otherPlayers = this.players.filter(p => {
                 return player != p;
             });
-            let that = this;
+
             let result = true
             otherPlayers.forEach(p => {
-                if (that.scores[p.getName()].score > that.scores[player.getName()].score){
+                if (that.scores[p.getName()].score < that.scores[player.getName()].score){
                     result = false;
                 }
             })
@@ -96,10 +60,10 @@ module.exports = class GameCricket extends Game{
         return this.currentPlayer().getCurrentRound().isComplete();
     }
     getGameName(){
-        return 'Cricket';
+        return 'Cricket Cut Throat';
     }
 
     static getName(){
-        return 'Cricket';
+        return 'Cricket Cut Throat';
     }
 }

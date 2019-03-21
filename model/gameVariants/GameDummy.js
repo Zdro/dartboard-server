@@ -14,13 +14,17 @@ module.exports = class GameDummy extends Game{
                 score += dart.getScore();
             });
         });
-        return score;
+        return {score : score};
     }
     roundIsComplete() {
         return this.currentPlayer().getCurrentRound().isComplete();
     }
 
-    static getOptionsTemplate(){
-        
+    getGameName(){
+        return 'Dummy';
+    }
+
+    static getName(){
+        return 'Dummy';
     }
 }
