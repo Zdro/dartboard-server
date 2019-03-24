@@ -1,4 +1,4 @@
-module.exports = class localSocketClient{
+module.exports = class LocalSocketClient{
     constructor(io, gameManager){
         this.io = io;
         this.gameManager = gameManager;
