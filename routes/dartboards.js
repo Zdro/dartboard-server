@@ -1,6 +1,6 @@
 let express = require('express');
 let router = express.Router();
-let RemoteSocketClient = require('../remoteSocketClient');
+let WebSocketClient = require('../webSocketClient');
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
@@ -48,7 +48,7 @@ router.post('/delete', function (req, res, next) {
 router.post('/connect', function (req, res, next) {
   let ip = req.body.ip;
   
-  let client = new RemoteSocketClient(ip, req.app.gameManager, req.app.db);
+  let client = new WebSocketClient(ip, req.app.gameManager, req.app.db);
   
   res.redirect('/dartboards'); 
 });

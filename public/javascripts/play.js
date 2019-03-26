@@ -17,7 +17,7 @@ $(function () {
                   <tr>
                     <th style="width:75px"></th>`;
     game.players.forEach((player, i) => {
-      table += `    <th class="center-align ${i == game.currentPlayerIdx ? 'light-blue lighten-4' : ''}">${player.name}</th>`;
+      table += `    <th class="center-align ${i == game.currentPlayerIdx ? 'light-blue lighten-4' : ''}"><h2 style="margin:0px">${player.name}</h2></th>`;
     });
     table += `    </tr>
                 </thead>
@@ -25,21 +25,21 @@ $(function () {
                 <tr>
                   <td class="center-align" style="font-weight:bold">Score</td>`;
     game.players.forEach((player, i) => {
-      table += `  <td class="center-align lighten-4 ${i == game.currentPlayerIdx ? 'light-blue' : ''}">${player.score.score}</td>`;
+      table += `  <td class="center-align lighten-4 ${i == game.currentPlayerIdx ? 'light-blue' : ''}"><h2 style="margin:0px">${player.score.score}</h2></td>`;
     });
     table += '  </tr>';
 
     if (game.objective.segments) {
       game.objective.segments.forEach((segment, i) => {
         table += `<tr>
-                    <td class="center-align" style="font-weight:bold">${segment}</td>`;
+                    <td class="center-align" style="font-weight:bold"><h2 style="margin:0px">${segment}</h2></td>`;
         game.players.forEach((player, j) => {
           table += `<td class="center-align lighten-4 
                             ${j == game.currentPlayerIdx ? 'light-blue' : ''}
                             ${player.score.segments[i] == 3 ? 'light-green' : ''}
                             "
                     >
-                      ${player.score.segments[i] != 0 ? player.score.segments[i] : ''}
+                     <h2 style="margin:0px"> ${player.score.segments[i] != 0 ? player.score.segments[i] : ''}</h2>
                     </td>`
         })
         table += '</tr>';
@@ -62,6 +62,21 @@ $(function () {
     var obj = JSON.parse(data);
     game = obj;
     $('#scoreTable').html(generatePlayersTable(game));
+    
+    var rounds = game.players[game.currentPlayerIdx].rounds
+    var darts = {}
+    var lastDart = {}
+    if (rounds.length > 0){
+      darts = rounds[rounds.length - 1].darts
+      if (darts.length > 0)
+        lastDart = darts[darts.length - 1]
+  
+    }
+    console.log(
+
+      JSON.stringify(lastDart, null,2)
+      )
+     		
     $('.brand-logo').text(game.name);
   })
 });
