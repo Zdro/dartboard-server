@@ -16,6 +16,12 @@ function addNewPlayer(){
     </div>
     `;
     $('#players').append(template);
+    focusOnPlayer($('#player-' + nbPlayers))
+}
+
+function focusOnPlayer(player){
+    player.focus();
+    player.select();
 }
 
 function deletePlayer(playerNumber){
