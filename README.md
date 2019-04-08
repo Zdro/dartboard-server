@@ -12,7 +12,7 @@ npm install
 
 Run the server with
 ```
-npm install
+npm start
 ```
 
 Open your browser at http://localhost:8080
