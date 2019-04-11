@@ -5,8 +5,8 @@ function addNewPlayer(){
     var template = `
     <div id="player-${nbPlayers}-wrapper" class="row">
         <div class="input-field col s8">
-            <input id="player-${nbPlayers}" type="text" name="playerName" class="validate">
             <label for="player-${nbPlayers}">Name</label>
+            <input id="player-${nbPlayers}" type="text" name="playerName" class="validate" value="Player ${nbPlayers}">
         </div>
         <div class="input-field col s4">
             <a class="btn waves-effect waves-light" href="#" onClick="deletePlayer('${nbPlayers}')">
@@ -16,6 +16,12 @@ function addNewPlayer(){
     </div>
     `;
     $('#players').append(template);
+    focusOnPlayer($('#player-' + nbPlayers))
+}
+
+function focusOnPlayer(player){
+    player.focus();
+    player.select();
 }
 
 function deletePlayer(playerNumber){
